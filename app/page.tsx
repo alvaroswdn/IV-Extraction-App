@@ -27,7 +27,7 @@ export default function Home() {
             id="search"
             type="text"
             placeholder="Search..."
-            className="absolute top-0 left-0 h-full w-full rounded-full pl-12"
+            className="border-quaternary focus:border-secondary absolute top-0 left-0 h-full w-full rounded-full border-2 pl-12 transition-colors focus:outline-none"
           />
         </label>
       </section>
