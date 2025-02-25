@@ -21,14 +21,14 @@ export default function MachineCardList({ data }: Props) {
         </div>
         <div className="flex gap-3">
           <div className="grid">
-            <h4 className="flex items-center justify-end gap-1 text-sm font-semibold">
+            <h4 className="flex items-center justify-end gap-1 font-semibold">
               <BriefcaseMedicalIcon size={16} />
               {data.bags}
             </h4>
             <span className="text-xs font-light">of {data.maxBags}</span>
           </div>
           <div className="grid">
-            <h4 className="flex items-center justify-end gap-1 text-sm font-semibold">
+            <h4 className="flex items-center justify-end gap-1 font-semibold">
               <DropletIcon size={16} />
               {data.volume} L
             </h4>
