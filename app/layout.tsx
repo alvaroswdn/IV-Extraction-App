@@ -1,12 +1,12 @@
-import PageName from '@/components/PageName'
-import { MenuIcon, SettingsIcon } from 'lucide-react'
+import Header from '@/components/Header'
 import type { Metadata } from 'next'
-import { Lexend } from 'next/font/google'
+import { Poppins } from 'next/font/google'
 import './globals.css'
 
-const lexend = Lexend({
-  variable: '--font-lexend',
+const poppins = Poppins({
+  variable: '--font-primary',
   subsets: ['latin'],
+  weight: ['400', '500', '600', '700', '800'],
 })
 
 export const metadata: Metadata = {
@@ -21,17 +21,10 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={`${lexend.variable} m-auto max-w-4xl antialiased`}>
-        <header className="flex items-center justify-between p-4 text-neutral-900">
-          <button type="button">
-            <MenuIcon size={24} />
-          </button>
-          <PageName />
-          <button type="button">
-            <SettingsIcon size={24} />
-          </button>
-        </header>
+      <body className={`${poppins.variable} antialiased`}>
+        <Header />
         {children}
+        {/* <Footer /> */}
       </body>
     </html>
   )

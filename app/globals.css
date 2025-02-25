@@ -1,8 +1,8 @@
 @import 'tailwindcss';
 
 :root {
-  --primary: #d5e1f1;
-  --secondary: #4c5d81;
+  --primary: #dceaf2;
+  --secondary: #3d5a80;
   --tertiary: #3f463e;
   --quaternary: #f1f1f1;
   --quinary: #ffffff;
@@ -14,10 +14,10 @@
   --color-tertiary: var(--tertiary);
   --color-quaternary: var(--quaternary);
   --color-quinary: var(--quinary);
-  --font-sans: var(--font-lexend);
+  --font-sans: var(--font-primary);
 }
 body {
   color: var(--secondary);
   background: var(--quinary);
-  font-family: var(--font-lexend), sans-serif;
+  font-family: var(--font-primary), sans-serif;
 }
