@@ -1,4 +1,14 @@
-import { ArrowRightIcon, BellIcon, FormInputIcon, GlobeIcon, UserIcon } from 'lucide-react'
+'use client'
+
+import {
+  ArrowRightIcon,
+  BellIcon,
+  FormInputIcon,
+  GlobeIcon,
+  LogOutIcon,
+  UserIcon,
+} from 'lucide-react'
+import { signOut } from 'next-auth/react'
 import Link from 'next/link'
 
 export default function Settings() {
@@ -32,6 +42,16 @@ export default function Settings() {
         </div>
         <ArrowRightIcon />
       </Link>
+      <button
+        onClick={() => signOut()}
+        className="flex cursor-pointer items-center justify-between py-4 text-red-500"
+      >
+        <div className="flex items-center gap-4">
+          <LogOutIcon />
+          Logout
+        </div>
+        <ArrowRightIcon />
+      </button>
     </nav>
   )
 }
