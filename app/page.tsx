@@ -17,7 +17,7 @@ export default function Home() {
   // }
 
   return (
-    <main className="m-auto flex max-w-5xl flex-col gap-4 p-4">
+    <main className="m-auto flex max-w-5xl flex-col gap-6 p-4">
       <section id="hero">
         <div className="grid grid-flow-col grid-cols-2 gap-4">
           <Card>
@@ -29,7 +29,7 @@ export default function Home() {
             <h2 className="text-4xl font-semibold">10</h2>
           </Card>
         </div>
-        <div className="p-8">
+        <div className="mt-6 px-8">
           <ProgressRing color="text-secondary" value={68}>
             <div className="grid items-center gap-1 text-center font-semibold">
               <h1 className="text-xl">Recycled IV Fluids</h1>
@@ -45,10 +45,11 @@ export default function Home() {
             Show all
           </Link>
         </div>
-        <div className="grid gap-3">
+        <div className="relative grid gap-3">
           {machines.slice(0, 3).map((machine) => (
             <MachineCardList key={machine.name} data={machine} />
           ))}
+          <div className="from-quinary pointer-events-none absolute bottom-0 h-16 w-full bg-gradient-to-t to-transparent" />
         </div>
       </section>
     </main>

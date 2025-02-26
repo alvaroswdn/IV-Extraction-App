@@ -22,7 +22,7 @@ export default function Header() {
         <button
           type="button"
           className="cursor-pointer"
-          onClick={() => {
+          onClick={async () => {
             if (pathname.startsWith('/settings')) {
               window.history.back()
             } else {
@@ -65,21 +65,17 @@ export default function Header() {
 }
 
 function getTitle(pathname: string): string {
-  if (pathname.startsWith('/machines/')) {
+  if (pathname.startsWith('/machines')) {
     return 'Machines'
   }
 
-  if (pathname.startsWith('/settings/')) {
+  if (pathname.startsWith('/settings')) {
     return 'Settings'
   }
 
   switch (pathname) {
     case '/':
       return 'Home'
-    case '/machines':
-      return 'Machines'
-    case '/settings':
-      return 'Settings'
     default:
       return pathname.replace(/\//g, '')
   }
