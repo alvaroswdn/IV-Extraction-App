@@ -1,3 +1,4 @@
+import Footer from '@/components/Footer'
 import Header from '@/components/Header'
 import type { Metadata } from 'next'
 import { Poppins } from 'next/font/google'
@@ -26,6 +27,7 @@ export default function RootLayout({
         <Providers>
           <Header />
           {children}
+          <Footer />
         </Providers>
       </body>
     </html>
