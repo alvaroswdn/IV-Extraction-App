@@ -1,4 +1,6 @@
-import { MachineData } from '@/app/machines'
+'use client'
+
+import { MachineData } from '@/utils/supabase/types'
 import { BriefcaseMedicalIcon, DropletIcon } from 'lucide-react'
 import Link from 'next/link'
 import Card from './Card'
@@ -25,14 +27,14 @@ export default function MachineCardList({ data }: Props) {
               <BriefcaseMedicalIcon size={16} />
               {data.bags}
             </h4>
-            <span className="text-xs font-light">of {data.maxBags}</span>
+            <span className="text-xs font-light">of {data.max_bags}</span>
           </div>
           <div className="grid">
             <h4 className="flex items-center justify-end gap-1 font-semibold">
               <DropletIcon size={16} />
               {data.volume} L
             </h4>
-            <span className="text-center text-xs font-light">of {data.maxVolume} L</span>
+            <span className="text-center text-xs font-light">of {data.max_volume} L</span>
           </div>
         </div>
       </Card>

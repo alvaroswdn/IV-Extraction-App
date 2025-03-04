@@ -20,4 +20,5 @@ body {
   color: var(--secondary);
   background: var(--quinary);
   font-family: var(--font-primary), sans-serif;
+  min-height: 100vh;
 }

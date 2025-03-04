@@ -1,4 +1,6 @@
-import { MachineData } from '@/app/machines'
+'use client'
+
+import { MachineData } from '@/utils/supabase/types'
 import { BriefcaseMedicalIcon, DropletIcon } from 'lucide-react'
 import Link from 'next/link'
 import Card from './Card'
@@ -23,7 +25,7 @@ export default function MachineCardGrid({ data }: Props) {
               <div className="h-1.5 w-full rounded-full bg-neutral-100">
                 <div
                   className="bg-secondary h-1.5 rounded-full"
-                  style={{ width: `${Math.round((data.bags / data.maxBags) * 100)}%` }}
+                  style={{ width: `${Math.round((data.bags / data.max_bags) * 100)}%` }}
                 />
               </div>
             </div>
@@ -32,7 +34,7 @@ export default function MachineCardGrid({ data }: Props) {
               <div className="h-1.5 w-full rounded-full bg-neutral-100">
                 <div
                   className="bg-secondary h-1.5 rounded-full"
-                  style={{ width: `${Math.round((data.volume / data.maxVolume) * 100)}%` }}
+                  style={{ width: `${Math.round((data.volume / data.max_volume) * 100)}%` }}
                 />
               </div>
             </div>

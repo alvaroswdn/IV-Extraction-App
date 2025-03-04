@@ -2,9 +2,9 @@
 
 import MachineCardGrid from '@/components/MachineCardGrid'
 import MachineCardList from '@/components/MachineCardList'
+import { useMachines } from '@/utils/supabase/hooks'
 import { Grid2X2Icon, ListIcon, SearchIcon } from 'lucide-react'
 import { useState } from 'react'
-import { machines } from '.'
 
 type Views = 'grid' | 'list'
 
@@ -14,6 +14,7 @@ const viewIcon: Record<Views, React.ReactNode> = {
 }
 
 export default function Machines() {
+  const machines = useMachines()
   const [view, setView] = useState<Views>('list')
 
   return (
@@ -40,16 +41,18 @@ export default function Machines() {
       </div>
       {view === 'list' && (
         <div className="grid gap-3">
-          {machines.map((machine) => (
-            <MachineCardList key={machine.name} data={machine} />
-          ))}
+          {machines &&
+            machines
+              .sort((a, b) => a.id - b.id)
+              .map((machine) => <MachineCardList key={machine.id} data={machine} />)}
         </div>
       )}
       {view === 'grid' && (
         <div className="grid grid-cols-3 gap-3">
-          {machines.map((machine) => (
-            <MachineCardGrid key={machine.name} data={machine} />
-          ))}
+          {machines &&
+            machines
+              .sort((a, b) => a.id - b.id)
+              .map((machine) => <MachineCardGrid key={machine.id} data={machine} />)}
         </div>
       )}
     </main>

@@ -1,7 +1,21 @@
-import { ArrowRightIcon, BellIcon, FormInputIcon, GlobeIcon, UserIcon } from 'lucide-react'
+'use client'
+
+import { createClient } from '@/utils/supabase/client'
+import {
+  ArrowRightIcon,
+  BellIcon,
+  FormInputIcon,
+  GlobeIcon,
+  LogOutIcon,
+  UserIcon,
+} from 'lucide-react'
 import Link from 'next/link'
+import { useRouter } from 'next/navigation'
 
 export default function Settings() {
+  const supabase = createClient()
+  const router = useRouter()
+
   return (
     <nav className="mt-4 flex h-full w-full flex-col gap-4 bg-white px-10 text-xl text-neutral-900 *:border-b">
       <Link href="/settings/profile" className="flex items-center justify-between py-4">
@@ -32,6 +46,19 @@ export default function Settings() {
         </div>
         <ArrowRightIcon />
       </Link>
+      <button
+        onClick={async () => {
+          await supabase.auth.signOut()
+          router.push('/login')
+        }}
+        className="flex cursor-pointer items-center justify-between py-4 text-red-500"
+      >
+        <div className="flex items-center gap-4">
+          <LogOutIcon />
+          Logout
+        </div>
+        <ArrowRightIcon />
+      </button>
     </nav>
   )
 }

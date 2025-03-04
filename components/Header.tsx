@@ -2,7 +2,7 @@
 
 import { ArrowLeftIcon, MenuIcon, SettingsIcon, XIcon } from 'lucide-react'
 import Link from 'next/link'
-import { usePathname } from 'next/navigation'
+import { usePathname, useRouter } from 'next/navigation'
 import { useEffect, useState } from 'react'
 
 const links: Record<string, string> = {
@@ -11,6 +11,7 @@ const links: Record<string, string> = {
 }
 
 export default function Header() {
+  const router = useRouter()
   const pathname = usePathname()
   const [showNav, setShowNav] = useState(false)
 
@@ -22,9 +23,9 @@ export default function Header() {
         <button
           type="button"
           className="cursor-pointer"
-          onClick={async () => {
+          onClick={() => {
             if (pathname.startsWith('/settings')) {
-              window.history.back()
+              router.back()
             } else {
               setShowNav(true)
             }
