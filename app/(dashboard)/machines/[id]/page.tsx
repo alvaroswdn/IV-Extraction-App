@@ -3,8 +3,10 @@
 import Card from '@/components/Card'
 import ProgressRing from '@/components/ProgressRing'
 import { useMachines } from '@/utils/supabase/hooks'
+import { useParams } from 'next/navigation'
 
-export default function Machine({ params: { id } }: { params: { id: string } }) {
+export default function Machine() {
+  const { id } = useParams<{ id: string }>()
   const machines = useMachines()
   const machine = machines.find((machine) => machine.id === Number(id))
 
