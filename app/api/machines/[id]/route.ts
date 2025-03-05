@@ -2,10 +2,10 @@ import { createClient } from '@/utils/supabase/server'
 import * as v from 'valibot'
 
 const PostData = v.object({
-  id: v.number(),
-  bags: v.pipe(v.number(), v.minValue(0)),
-  volume: v.pipe(v.number(), v.minValue(0)),
-  weight: v.pipe(v.number(), v.minValue(0)),
+  id: v.pipe(v.string(), v.transform(parseInt), v.number()),
+  bags: v.pipe(v.string(), v.transform(parseInt), v.number(), v.minValue(0)),
+  volume: v.pipe(v.string(), v.transform(parseInt), v.number(), v.minValue(0)),
+  weight: v.pipe(v.string(), v.transform(parseInt), v.number(), v.minValue(0)),
   email: v.pipe(v.string(), v.email()),
   password: v.pipe(v.string(), v.minLength(8)),
 })
@@ -24,7 +24,12 @@ export async function POST(request: Request, { params }: { params: Promise<{ id:
   })
 
   if (!parse.success) {
-    return new Response(`Missing required fields: ${parse.issues.join(' | ')}`, { status: 400 })
+    return new Response(
+      `Missing required fields: ${parse.issues.map((i) => i.message).join(' | ')}`,
+      {
+        status: 400,
+      },
+    )
   }
 
   const data = parse.output
@@ -40,7 +45,7 @@ export async function POST(request: Request, { params }: { params: Promise<{ id:
     return new Response(`Error signing in: ${signInError.message}`, { status: 500 })
   }
 
-  const { error: updateError } = await supabase
+  const { error: updateError, data: entry } = await supabase
     .from('machines')
     .update({
       bags: data.bags,
@@ -49,9 +54,14 @@ export async function POST(request: Request, { params }: { params: Promise<{ id:
       updated_at: new Date().toISOString(),
     })
     .eq('id', data.id)
+    .select()
+
+  if (!entry || entry.length === 0) {
+    return new Response(`Machine not found`, { status: 404 })
+  }
 
   if (updateError) {
-    return new Response(`Error updating machine: ${updateError.message}`, { status: 500 })
+    return new Response(`Error updating machine: ${updateError}`, { status: 500 })
   }
 
   return new Response(null, { status: 200 })
