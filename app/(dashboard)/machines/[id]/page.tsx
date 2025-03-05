@@ -8,7 +8,7 @@ import { useParams } from 'next/navigation'
 export default function Machine() {
   const { id } = useParams<{ id: string }>()
   const machines = useMachines()
-  const machine = machines.find((machine) => machine.id === Number(id))
+  const machine = machines.find((machine) => machine.id === parseInt(id))
 
   if (!machine) {
     return null
