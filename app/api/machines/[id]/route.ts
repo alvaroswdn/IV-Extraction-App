@@ -75,7 +75,7 @@ export async function POST(
     return NextResponse.json(
       { success: false, message: 'Failed to sign in to account', errors: [signInError.message] },
       {
-        status: 500,
+        status: 401,
       },
     )
   }
