@@ -2,6 +2,7 @@
 
 import MachineCardGrid from '@/components/MachineCardGrid'
 import MachineCardList from '@/components/MachineCardList'
+import { useLoader } from '@/utils/loader'
 import { useMachines } from '@/utils/supabase/hooks'
 import { MachineData } from '@/utils/supabase/types'
 import { Grid2X2Icon, ListIcon, LucideIcon, SearchIcon } from 'lucide-react'
@@ -9,6 +10,7 @@ import { createElement, useState } from 'react'
 
 export default function Machines() {
   const machines = useMachines()
+  const [loaderElement, contentClass] = useLoader(machines.length <= 0)
   const [view, setView] = useState<Views>('list')
 
   return (
@@ -33,7 +35,8 @@ export default function Machines() {
           {createElement(viewMeta[view].toggle.icon)}
         </button>
       </div>
-      <div className={`grid gap-3 ${viewMeta[view].style}`}>
+      {loaderElement}
+      <div className={`grid gap-3 ${viewMeta[view].style} ${contentClass}`}>
         {machines
           .sort((a, b) => a.id - b.id)
           .map((machine) =>

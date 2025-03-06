@@ -2,16 +2,22 @@
 
 import Card from '@/components/Card'
 import ProgressRing from '@/components/ProgressRing'
+import { useLoader } from '@/utils/loader'
 import { useMachines } from '@/utils/supabase/hooks'
 import { useParams } from 'next/navigation'
 
 export default function Machine() {
   const { id } = useParams<{ id: string }>()
   const machines = useMachines()
+  const [loaderElement, contentClass] = useLoader(machines.length <= 0)
   const machine = machines.find((machine) => machine.id === parseInt(id))
 
   if (!machine) {
-    return null
+    return (
+      <div className="visible m-auto mt-24 flex max-w-96 scale-50 animate-spin">
+        <ProgressRing color="text-secondary" value={8} />
+      </div>
+    )
   }
 
   const lastUpdated = new Date(machine.updated_at).toLocaleDateString('en-GB')
@@ -19,7 +25,8 @@ export default function Machine() {
 
   return (
     <main>
-      <section className="p-4">
+      {loaderElement}
+      <section className={`p-4 ${contentClass}`}>
         <h1 className="mb-2 text-4xl font-semibold">{machine.name}</h1>
         <div className="mb-4 flex items-center justify-between">
           <div className="flex items-center gap-1.5">

@@ -8,8 +8,10 @@ export default function DashboardLayout({
 }>) {
   return (
     <>
-      <Header />
-      {children}
+      <div>
+        <Header />
+        {children}
+      </div>
       <Footer />
     </>
   )
