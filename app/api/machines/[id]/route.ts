@@ -23,14 +23,6 @@ const PostData = v.object(
       v.number('The weight field must be a number'),
       v.minValue(0, 'The weight field must be greater than 0'),
     ),
-    email: v.pipe(
-      v.string('The email field must be a string'),
-      v.email('The email field must be a valid email address'),
-    ),
-    password: v.pipe(
-      v.string('The password field must be a string'),
-      v.minLength(8, 'The password field must be at least 8 characters long'),
-    ),
   },
   (i) => `The ${v.getDotPath(i)} field is required`,
 )
@@ -39,6 +31,32 @@ export async function POST(
   request: Request,
   { params }: { params: Promise<{ id: string }> },
 ): Promise<NextResponse<DefaultResponse>> {
+  const authHeader = request.headers.get('Authorization')
+  if (!authHeader) {
+    return NextResponse.json(
+      { success: false, message: 'Unauthorized', errors: [] },
+      { status: 401 },
+    )
+  }
+
+  const authValue = authHeader.split(' ')[1]
+  const [email, password] = atob(authValue).split(':')
+  const supabase = await createClient()
+
+  const { error: signInError } = await supabase.auth.signInWithPassword({
+    email: email,
+    password: password,
+  })
+
+  if (signInError) {
+    return NextResponse.json(
+      { success: false, message: 'Failed to sign in to account', errors: [signInError.message] },
+      {
+        status: 401,
+      },
+    )
+  }
+
   const id = parseInt((await params).id)
   const formData = await request.formData()
 
@@ -62,30 +80,12 @@ export async function POST(
     )
   }
 
-  const data = parse.output
-
-  const supabase = await createClient()
-
-  const { error: signInError } = await supabase.auth.signInWithPassword({
-    email: data.email,
-    password: data.password,
-  })
-
-  if (signInError) {
-    return NextResponse.json(
-      { success: false, message: 'Failed to sign in to account', errors: [signInError.message] },
-      {
-        status: 401,
-      },
-    )
-  }
-
   const { error: updateError, data: entry } = await supabase
     .from('machines')
     .update({
-      bags: data.bags,
-      volume: data.volume,
-      weight: data.weight,
+      bags: parse.output.bags,
+      volume: parse.output.volume,
+      weight: parse.output.weight,
       updated_at: new Date().toISOString(),
     })
     .eq('id', id)
