@@ -3,15 +3,9 @@
 import MachineCardGrid from '@/components/MachineCardGrid'
 import MachineCardList from '@/components/MachineCardList'
 import { useMachines } from '@/utils/supabase/hooks'
-import { Grid2X2Icon, ListIcon, SearchIcon } from 'lucide-react'
-import { useState } from 'react'
-
-type Views = 'grid' | 'list'
-
-const viewIcon: Record<Views, React.ReactNode> = {
-  list: <Grid2X2Icon />,
-  grid: <ListIcon />,
-}
+import { MachineData } from '@/utils/supabase/types'
+import { Grid2X2Icon, ListIcon, LucideIcon, SearchIcon } from 'lucide-react'
+import { createElement, useState } from 'react'
 
 export default function Machines() {
   const machines = useMachines()
@@ -33,28 +27,48 @@ export default function Machines() {
           />
         </label>
         <button
-          onClick={() => setView(view === 'list' ? 'grid' : 'list')}
+          onClick={() => setView(viewMeta[view].toggle.content)}
           className="bg-quaternary flex aspect-square h-full cursor-pointer items-center justify-center rounded-full"
         >
-          {viewIcon[view]}
+          {createElement(viewMeta[view].toggle.icon)}
         </button>
       </div>
-      {view === 'list' && (
-        <div className="grid gap-3">
-          {machines &&
-            machines
-              .sort((a, b) => a.id - b.id)
-              .map((machine) => <MachineCardList key={machine.id} data={machine} />)}
-        </div>
-      )}
-      {view === 'grid' && (
-        <div className="grid grid-cols-3 gap-3">
-          {machines &&
-            machines
-              .sort((a, b) => a.id - b.id)
-              .map((machine) => <MachineCardGrid key={machine.id} data={machine} />)}
-        </div>
-      )}
+      <div className={`grid gap-3 ${viewMeta[view].style}`}>
+        {machines
+          .sort((a, b) => a.id - b.id)
+          .map((machine) =>
+            createElement(viewMeta[view].itemNode, { key: machine.id, data: machine }),
+          )}
+      </div>
     </main>
   )
+}
+
+type Views = 'grid' | 'list'
+
+type ViewMeta = {
+  toggle: {
+    icon: LucideIcon
+    content: Views
+  }
+  itemNode: React.FC<{ data: MachineData }>
+  style?: string
+}
+
+const viewMeta: Record<Views, ViewMeta> = {
+  list: {
+    toggle: {
+      icon: Grid2X2Icon,
+      content: 'grid',
+    },
+    itemNode: MachineCardList,
+  },
+  grid: {
+    toggle: {
+      icon: ListIcon,
+      content: 'list',
+    },
+    itemNode: MachineCardGrid,
+    style: 'grid-cols-3',
+  },
 }

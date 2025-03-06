@@ -14,6 +14,9 @@ export default function Machine() {
     return null
   }
 
+  const lastUpdated = new Date(machine.updated_at).toLocaleDateString('en-GB')
+  const capacity = Math.round((machine.bags / machine.max_bags) * 100)
+
   return (
     <main>
       <section className="p-4">
@@ -25,7 +28,7 @@ export default function Machine() {
 
             <span>{machine.online ? 'Online' : 'Offline'}</span>
           </div>
-          <span>{new Date(machine.updated_at).toLocaleDateString('en-GB')}</span>
+          <span>{lastUpdated}</span>
         </div>
         <div className="grid grid-cols-2 gap-4">
           <Card className="border-neutral-300 p-3">
@@ -38,13 +41,10 @@ export default function Machine() {
           </Card>
         </div>
         <div className="px-8 py-4">
-          <ProgressRing
-            color="text-secondary"
-            value={Math.round((machine.bags / machine.max_bags) * 100)}
-          >
+          <ProgressRing color="text-secondary" value={capacity}>
             <div className="grid items-center gap-1 text-center font-semibold">
               <h1 className="text-xl">Capacity</h1>
-              <h2 className="text-6xl">{Math.round((machine.bags / machine.max_bags) * 100)}%</h2>
+              <h2 className="text-6xl">{capacity}%</h2>
             </div>
           </ProgressRing>
         </div>
