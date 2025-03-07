@@ -23,11 +23,7 @@ export default function LoginPage() {
         <h1 className="text-2xl font-bold">IV Waste Management System</h1>
         <p className="text-secondary">Log in to your account to continue</p>
       </div>
-      <form
-        onSubmit={() => progress.start()}
-        action={formAction}
-        className="flex flex-col items-center gap-4"
-      >
+      <form action={formAction} className="flex flex-col items-center gap-4">
         <h2>{state.message}</h2>
         <div className="bg-quinary text-secondary relative w-full rounded-full">
           <label
@@ -58,7 +54,7 @@ export default function LoginPage() {
         <button
           type="submit"
           disabled={pending}
-          className="bg-quinary w-fit cursor-pointer rounded-full px-12 py-3 hover:bg-red-300"
+          className="bg-quinary w-fit cursor-pointer rounded-full px-12 py-3 transition-colors hover:bg-slate-300 disabled:bg-slate-200"
         >
           Login
         </button>
