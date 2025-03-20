@@ -1,10 +1,11 @@
 'use client'
 
-import Card from '@/components/Card'
-import MachinesPreview from '@/components/MachinesPreview'
-import ProgressRing from '@/components/ProgressRing'
+import { Preview } from '@/components/machine'
+import { PercentChart } from '@/components/percent-chart'
+import { SimpleCard } from '@/components/simple-card'
 import { useLoader } from '@/utils/loader'
 import { useMachines } from '@/utils/supabase/hooks'
+import { BadgeIcon, DropletIcon } from 'lucide-react'
 import Link from 'next/link'
 
 export default function Home() {
@@ -17,37 +18,31 @@ export default function Home() {
   const capacity = Math.round((totalBags / totalMaxVolume) * 100) || 0
 
   return (
-    <main className="m-auto flex max-w-5xl flex-col gap-6 p-4">
+    <main className="m-auto grid min-h-svh max-w-5xl gap-6 p-4">
       {loaderElement}
-      <section id="hero" className={contentClass}>
-        <div className="grid grid-flow-col grid-cols-2 gap-4">
-          <Card>
-            <h1>Total Volume</h1>
-            <h2 className="text-4xl font-semibold">{totalVolume} L</h2>
-          </Card>
-          <Card className="bg-primary border-none">
-            <h1>Total Bags</h1>
-            <h2 className="text-4xl font-semibold">{totalBags}</h2>
-          </Card>
-        </div>
-        <div className="mt-6 px-8">
-          <ProgressRing color="text-secondary" value={capacity}>
-            <div className="grid items-center gap-1 text-center font-semibold">
-              <h1 className="text-xl">Recycled IV Fluids</h1>
-              <h2 className="text-6xl">{capacity}%</h2>
-            </div>
-          </ProgressRing>
-        </div>
-      </section>
-      <section id="machines" className={contentClass}>
-        <div className="mb-3 flex items-center justify-between">
-          <h1 className="text-xl font-semibold">Machines</h1>
-          <Link href="/machines" className="text-sm underline">
-            Show all
-          </Link>
-        </div>
-        <MachinesPreview machines={machines} />
-      </section>
+      <div className={contentClass}>
+        <section id="hero" className="grid grid-flow-row grid-cols-2 gap-4">
+          <SimpleCard
+            type="secondary"
+            label="Total Volume"
+            data={`${totalVolume} L`}
+            icon={DropletIcon}
+          />
+          <SimpleCard label="Total Bags" data={totalBags} icon={BadgeIcon} />
+          <div className="col-span-2 mt-6 mb-8 px-8">
+            <PercentChart label="Recycled IV Fluids" value={capacity} />
+          </div>
+        </section>
+        <section id="machines" className={contentClass}>
+          <div className="mb-3 flex items-center justify-between">
+            <h1 className="text-xl font-semibold">Machines</h1>
+            <Link href="/machines" className="text-sm underline">
+              Show all
+            </Link>
+          </div>
+          <Preview machines={machines} />
+        </section>
+      </div>
     </main>
   )
 }

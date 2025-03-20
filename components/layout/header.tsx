@@ -5,7 +5,7 @@ import Link from 'next/link'
 import { usePathname, useRouter } from 'next/navigation'
 import { useEffect, useState } from 'react'
 
-const links: Record<string, string> = {
+const NAVIGATION_LINKS: Record<string, string> = {
   '/': 'Home',
   '/machines': 'Machines',
 }
@@ -50,11 +50,11 @@ export default function Header() {
               <SettingsIcon size={24} />
             </Link>
           </header>
-          {Object.entries(links).map(([href, label]) => (
+          {Object.entries(NAVIGATION_LINKS).map(([href, label]) => (
             <Link
               key={href}
               href={href}
-              className={`px-8 py-4 ${(href === '/' ? href === pathname : pathname.startsWith(href)) ? 'bg-primary text-secondary font-bold' : ''}`}
+              className={`px-8 py-4 ${(href === '/' ? href === pathname : pathname.startsWith(href)) ? 'bg-accent font-bold' : ''}`}
             >
               {label}
             </Link>

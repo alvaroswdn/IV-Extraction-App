@@ -1,6 +1,6 @@
 'use client'
 
-import SettingsLink from '@/components/SettingsLink'
+import { SettingsLink } from '@/components/settings-link'
 import { createClient } from '@/utils/supabase/client'
 import {
   ArrowRightIcon,

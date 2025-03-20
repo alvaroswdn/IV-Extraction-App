@@ -1,9 +1,11 @@
 'use client'
 
-import Card from '@/components/Card'
+import { PercentChart } from '@/components/percent-chart'
 import ProgressRing from '@/components/ProgressRing'
+import { SimpleCard } from '@/components/simple-card'
 import { useLoader } from '@/utils/loader'
 import { useMachines } from '@/utils/supabase/hooks'
+import { BriefcaseMedicalIcon, DropletIcon } from 'lucide-react'
 import { useParams } from 'next/navigation'
 
 export default function Machine() {
@@ -38,22 +40,16 @@ export default function Machine() {
           <span>{lastUpdated}</span>
         </div>
         <div className="grid grid-cols-2 gap-4">
-          <Card className="border-neutral-300 p-3">
-            <h2 className="text-sm font-semibold">Current Volume</h2>
-            <h2 className="text-4xl font-semibold">{machine.volume} L</h2>
-          </Card>
-          <Card className="bg-primary border-none p-3">
-            <h2 className="text-sm font-semibold">Total Bags</h2>
-            <h2 className="text-4xl font-semibold">{machine.bags}</h2>
-          </Card>
+          <SimpleCard
+            type="secondary"
+            label="Current Volume"
+            data={`${machine.volume} L`}
+            icon={DropletIcon}
+          />
+          <SimpleCard label="Total Bags" data={machine.bags} icon={BriefcaseMedicalIcon} />
         </div>
         <div className="px-8 py-4">
-          <ProgressRing color="text-secondary" value={capacity}>
-            <div className="grid items-center gap-1 text-center font-semibold">
-              <h1 className="text-xl">Capacity</h1>
-              <h2 className="text-6xl">{capacity}%</h2>
-            </div>
-          </ProgressRing>
+          <PercentChart label="Capacity" value={capacity} />
         </div>
       </section>
     </main>

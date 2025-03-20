@@ -5,29 +5,17 @@ import { redirect } from 'next/navigation'
 import * as v from 'valibot'
 
 import { createClient } from '@/utils/supabase/server'
-
-const LoginSchema = v.object({
-  email: v.pipe(
-    v.string('The email you entered is not a string'),
-    v.nonEmpty('The email field is missing from the form'),
-    v.email('The email you entered is not a valid email'),
-  ),
-  password: v.pipe(
-    v.string('The password you entered is not a string'),
-    v.nonEmpty('The password field is missing from the form'),
-    v.minLength(8, 'The password you entered is too short'),
-  ),
-})
+import { FormSchema } from '.'
 
 export type LoginForm = {
-  data: v.InferOutput<typeof LoginSchema>
+  data: v.InferOutput<typeof FormSchema>
   errors: string[]
 }
 
 export async function login(prevState: { message: string }, formData: FormData) {
   const supabase = await createClient()
 
-  const parsing = v.safeParse(LoginSchema, {
+  const parsing = v.safeParse(FormSchema, {
     email: formData.get('email'),
     password: formData.get('password'),
   })

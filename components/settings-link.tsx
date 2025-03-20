@@ -1,7 +1,7 @@
 import { ArrowRightIcon, LucideIcon } from 'lucide-react'
 import Link from 'next/link'
 
-export default function SettingsLink({
+export function SettingsLink({
   name,
   href,
   icon: Icon,

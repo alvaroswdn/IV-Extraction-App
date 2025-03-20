@@ -1,69 +1,32 @@
-'use client'
+import { HeartIcon } from 'lucide-react'
 
-import { useProgress } from '@bprogress/next'
-import { useActionState, useEffect } from 'react'
-import { login } from './actions'
+import { LoginForm } from '@/components/login-form'
 
 export default function LoginPage() {
-  const progress = useProgress()
-  const [state, formAction, pending] = useActionState(login, { message: '' })
-
-  useEffect(() => {
-    if (pending) {
-      progress.start()
-    } else {
-      progress.stop()
-    }
-  }, [pending, progress])
-
   return (
-    <main className="m-auto flex h-screen max-w-5xl flex-col items-center justify-center gap-12 p-4">
-      <div className="text-center text-neutral-900">
-        <h2 className="text-2xl font-semibold">Welcome to</h2>
-        <h1 className="text-2xl font-bold">IV Waste Management System</h1>
-        <p className="text-secondary">Log in to your account to continue</p>
+    <div className="grid min-h-svh lg:grid-cols-2">
+      <div className="flex flex-col gap-4 p-6 md:p-10">
+        <div className="flex justify-center gap-2 md:justify-start">
+          <a href="#" className="flex items-center gap-2 font-medium">
+            <div className="bg-primary text-primary-foreground flex size-6 items-center justify-center rounded-md">
+              <HeartIcon className="size-4" />
+            </div>
+            Eco-IV
+          </a>
+        </div>
+        <div className="flex flex-1 items-center justify-center pb-12">
+          <div className="w-full max-w-xs">
+            <LoginForm />
+          </div>
+        </div>
       </div>
-      <form action={formAction} className="flex flex-col items-center gap-4">
-        <h2>{state.message}</h2>
-        <div className="bg-quinary text-secondary relative w-full rounded-full">
-          <label
-            htmlFor="email"
-            className="pointer-events-none absolute top-2 left-8 text-sm font-semibold"
-          >
-            Email
-          </label>
-          <input
-            type="email"
-            name="email"
-            className="w-full rounded-full px-8 pt-7 pb-2"
-            required
-          />
-        </div>
-        <div className="bg-quinary text-secondary relative w-full rounded-full">
-          <label htmlFor="email" className="absolute top-2 left-8 text-sm font-semibold">
-            Password
-          </label>
-          <input
-            type="password"
-            name="password"
-            className="w-full rounded-full px-8 pt-7 pb-2"
-            minLength={8}
-            required
-          />
-        </div>
-        <button
-          type="submit"
-          disabled={pending}
-          className="bg-quinary w-fit cursor-pointer rounded-full px-12 py-3 transition-colors hover:bg-slate-300 disabled:bg-slate-200"
-        >
-          Login
-        </button>
-      </form>
-      <style jsx global>{`
-        body {
-          background: linear-gradient(to bottom, #98c1d9, #516673);
-        }
-      `}</style>
-    </main>
+      <div
+        className="relative hidden lg:block"
+        style={{
+          backgroundImage:
+            'radial-gradient(circle at 83% 22%, hsla(35.735294117647136, 82%, 87%, 1) 0%, transparent 50%), radial-gradient(circle at 0% 50%, hsla(194.5588235294118, 37%, 91%, 1) 0%, transparent 50%), radial-gradient(circle at 21% 21%, hsla(27.999999999999577, 0%, 86%, 1) 0%, transparent 50%), radial-gradient(circle at 54% 77%, hsla(193.2352941176474, 100%, 95%, 1) 0%, transparent 50%), radial-gradient(circle at 30% 75%, hsla(197.87234042553195, 25%, 35%, 1) 0%, transparent 50%)',
+        }}
+      />
+    </div>
   )
 }
